@@ -54,10 +54,19 @@ jobs:
           name: python-app
           path: .
           
+      - name: 'Login to Azure'
+        uses: azure/login@v1
+        with:
+         creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }}
+         
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: 'milligram-backend-mwm'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9F2F3C6622CB4927B5271367BADC4BCC }}
+
+          
+      - name: logout
+        run: |
+          az logout
